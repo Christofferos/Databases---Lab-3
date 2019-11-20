@@ -20,26 +20,12 @@
 					<li><a class="button-test" href="#"><b>STUDENTS</b></a></li>
 					<li><a class="button-test" href="#"><b>ADMINISTRATORS</b></a></li>
 				</ul>
-				<div class="nav-login">
-					<?php
-						if (isset($_SESSION['u_id'])) {
-
-							echo '<form><p style="margin: 7.5px 20px 10px 10px "><b>' . $_SESSION["u_uid"] . '    ' . '</b></p></form>';
-						
-
-							echo '<form action="dbh/logout.inc.php" method="POST">
-								<button type="submit" name="submit">Logout</button>
-							</form>';
-
-						} else {
-							echo '
-							<form action="dbh/login.inc.php" method="POST">
-							<input type="text" name="uid" placeholder="Username">
-							<input type="password" name="pwd" placeholder="Password">
-							<button class="button-test" type="submit" name="submit">Login/Signup</button>
-							</form>';
-						}
-					?>
+				<div class="nav-searchbar">
+					<select name="table" id="table_select">
+						<option value="students">Students</option>
+						<option value="administrators">Administrators</option>
+						<option value="books">Books</option>
+					</select>
 				</div>
 			</div>
 		</nav>

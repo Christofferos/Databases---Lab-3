@@ -1,10 +1,10 @@
 <?php
 
 // Local
-$dbServername = "localhost";	
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "loginsystem";
+$dbServername = "localhost"; // share-01.csc.kth.se	
+$dbUsername = "root"; // kriwer
+$dbPassword = ""; // IcqrcdYorEet or password for user
+$dbName = "loginsystem"; // nestor2
 
-$conn = mysqli_connect($dbServername, $dbUsername, $dbPassword, $dbName);
+$conn = pg_connect($dbServername, $dbUsername, $dbPassword, $dbName);
 

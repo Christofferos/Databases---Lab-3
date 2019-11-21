@@ -20,7 +20,7 @@ $name=isset($_GET['name']) ? $_GET['name'] : die('ERROR: Record ID not found.');
 include 'connection.php';
  
 try {
-    $query = "SELECT * FROM Country WHERE name = :name"; // Put query fetching data from table here
+    $query = "SELECT * FROM books WHERE title = :name"; // Put query fetching data from table here
     $stmt = $con->prepare( $query );
  
     $stmt->bindParam(':name', $name); //Bind the ID for the query
@@ -29,12 +29,17 @@ try {
  
     $row = $stmt->fetch(PDO::FETCH_ASSOC); //Fetchs data
  
-    $name = $row['name']; //Store data. Rename, add or remove columns as you like.
-    $code = $row['code'];
-	$capital = $row['capital'];
-	$province = $row['province'];
-	$area = $row['area'];
-	$population = $row['population'];
+    $title = $row['title']; //Store data. Rename, add or remove columns as you like.
+    $isbn = $row['isbn'];
+    $author = $row['author'];
+	$editionnum = $row['editionnum'];
+	$lang = $row['lang'];
+	$publisher = $row['publisher'];
+	$publicationdate = $row['publicationdate'];
+    $prequels = $row['prequels'];
+    $genre = $row['genre'];
+    $pages = $row['pages'];
+    $series = $row['series'];
 }
  
 
@@ -45,37 +50,54 @@ catch(PDOException $exception){ //In case of error
  <!-- Here is how we display our data. Rename, add or remove columns as you like-->
 <table class='table table-hover table-responsive table-bordered'>
     <tr>
-        <td>Name</td>
-        <td><?php echo htmlspecialchars($name, ENT_QUOTES);  ?></td>
+        <td>Title</td>
+        <td><?php echo htmlspecialchars($title, ENT_QUOTES);  ?></td>
     </tr>
 	
 	<tr>
-        <td>Code</td>
-        <td><?php echo htmlspecialchars($code, ENT_QUOTES);  ?></td>
+        <td>ISBN</td>
+        <td><?php echo htmlspecialchars($isbn, ENT_QUOTES);  ?></td>
+    </tr>
+	<tr>
+        <td>Author</td>
+        <td><?php echo htmlspecialchars($author, ENT_QUOTES);  ?></td>
+    </tr>
+	<tr>
+        <td>Edition</td>
+        <td><?php echo htmlspecialchars($editionnum, ENT_QUOTES);  ?></td>
     </tr>
 	
 	<tr>
-        <td>Capital</td>
-        <td><?php echo htmlspecialchars($capital, ENT_QUOTES);  ?></td>
+        <td>Language</td>
+        <td><?php echo htmlspecialchars($lang, ENT_QUOTES);  ?></td>
     </tr>
 	
 	<tr>
-        <td>Province</td>
-        <td><?php echo htmlspecialchars($province, ENT_QUOTES);  ?></td>
-    </tr>
-	
-	<tr>
-        <td>Area</td>
-        <td><?php echo htmlspecialchars($area, ENT_QUOTES);  ?></td>
+        <td>Publisher</td>
+        <td><?php echo htmlspecialchars($publisher, ENT_QUOTES);  ?></td>
     </tr>
 	
     <tr>
-        <td>Population</td>
-        <td><?php echo htmlspecialchars($population, ENT_QUOTES);  ?></td>
+        <td>Publication</td>
+        <td><?php echo htmlspecialchars($publicationdate, ENT_QUOTES);  ?></td>
     </tr>
-	
-	
-	
+    <tr>
+        <td>Prequels</td>
+        <td><?php echo htmlspecialchars($prequels, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>Genre</td>
+        <td><?php echo htmlspecialchars($genre, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>Pages</td>
+        <td><?php echo htmlspecialchars($pages, ENT_QUOTES);  ?></td>
+    </tr>
+    <tr>
+        <td>Series</td>
+        <td><?php echo htmlspecialchars($series, ENT_QUOTES);  ?></td>
+    </tr>
+
 	
     <tr>
         <td></td>

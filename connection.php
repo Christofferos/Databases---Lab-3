@@ -7,6 +7,7 @@ $password = "IcqrcdYorEet"; //The password you retrieved from your folder in Put
 
 try {
     $con = new PDO("pgsql:host={$host};dbname={$db_name}", $username, $password);
+    $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 //In case of error
 catch(PDOException $exception){

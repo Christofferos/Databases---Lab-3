@@ -20,13 +20,18 @@
 					<li><a class="button-test" href="#"><b>STUDENTS</b></a></li>
 					<li><a class="button-test" href="#"><b>ADMINISTRATORS</b></a></li>
 				</ul>
-				<div class="nav-searchbar">
-					<select name="table" id="table_select">
-						<option value="students">Students</option>
-						<option value="administrators">Administrators</option>
-						<option value="books">Books</option>
-					</select>
+				<div class="nav-login">
+					
 				</div>
+				<select>
+					<option value="users"></option>
+					<option value="administrators"></option>
+					<option value="students"></option>
+					<option value="resources"></option>
+					<option value="books"></option>
+					<option value="borrows"></option>
+					<option value="fines"></option>
+				</select>
 			</div>
 		</nav>
 	</header>

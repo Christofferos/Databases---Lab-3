@@ -194,17 +194,17 @@ header nav ul li a {
 }
 
 
-header .nav-searchbar {
+header .nav-login {
     float: right;
 }
 
-header .nav-searchbar form {
+header .nav-login form {
     float: left;
     padding-top: 15px;
 }
 
 
-header .nav-searchbar form input {
+header .nav-login form input {
     float: left;
     width: 140px;
     height: 30px;
@@ -218,7 +218,7 @@ header .nav-searchbar form input {
     line-height: 30px;
 }
 
-header .nav-searchbar form button {
+header .nav-login form button {
     float: left;
     width: 95px;
     height: 30px;
@@ -232,11 +232,11 @@ header .nav-searchbar form button {
     cursor: pointer;
 }
 
-header .nav-searchbar form button: hover {
+header .nav-login form button: hover {
     background-color: #ccc;
 }
 
-header .nav-searchbar a {
+header .nav-login a {
     display: block;
     width: 60px;
     height: 60px;

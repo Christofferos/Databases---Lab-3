@@ -27,12 +27,9 @@
 
 <?php
 
-
 include 'connection.php'; //Init a connection
 
-$query = "SELECT * FROM users WHERE LOWER(fullname) LIKE LOWER(:keyword) ORDER BY fullname ASC;"; // or LOWER(Code) LIKE LOWER(:keyword) 
-//$query = "SELECT * FROM country WHERE LOWER(name) LIKE LOWER(:keyword) or LOWER(Code) LIKE LOWER(:keyword) ORDER BY name"; // Put query fetching data from table here
-
+$query = "SELECT * FROM borrows WHERE (resourceid AS INTEGER) LIKE (:keyword AS INTEGER) ORDER BY dateborrow";
 $stmt = $con->prepare($query);
 $keyword= isset($_POST['keyword']) ? $_POST['keyword'] : ''; //Is there any data sent from the form?
 
@@ -46,22 +43,28 @@ $num = $stmt->rowCount(); //Aquire number of rows
 if($num>0){ //Is there any data/rows?
     echo "<table class='table table-responsive table-fix table-bordered'><thead class='thead-light'>";
     echo "<tr>";
-    echo "<th>Name</th>"; // Rename, add or remove columns as you like.
-    echo "<th>User ID</th>";
-		echo "<th>Options</th>";
+    echo "<th>Borrowing Date</th>"; // Rename, add or remove columns as you like.
+    echo "<th>Expire Date</th>";
+		echo "<th>Return Date</th>";
+		echo "<th>ResourceID</th>";
+		echo "<th>UserID</th>";
     echo "</tr>";
 while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     extract($rad);
     echo "<tr>";
 		
 		// Here is the data added to the table
-    echo "<td>{$fullname}</td>"; //Rename, add or remove columns as you like
+    echo "<td>{$dateborrow}</td>"; //Rename, add or remove columns as you like
+    echo "<td>{$dateexpire}</td>";
+    echo "<td>{$datereturn}</td>";
+    echo "<td>{$resourceid}</td>";
     echo "<td>{$userid}</td>";
 		echo "<td>";
 
 		//Here are the buttons for update, delete and read.
-		echo "<a href='infoUser.php?userid={$userid}'class='btn btn-info m-r-1em'>Info</a>";
-		echo "<a href='updateUser.php?userid={$userid}' class='btn btn-primary m-r-1em'>Update</a>";
+		/* echo "<a href='readBooks.php?name={$title}'class='btn btn-info m-r-1em'>Info</a>"; // Replace with ID-variable, to make the buttons work
+		echo "<a href='updateBooks.php?name={$title}' class='btn btn-primary m-r-1em'>Update</a>";// Replace with ID-variable, to make the buttons work
+		echo "<a href='deleteBooks.php?id={$resourceid}' class='btn btn-danger'>Delete</a>";// Replace with ID-variable, to make the buttons work */
 		echo "</td>";
     echo "</tr>";
 }

@@ -32,7 +32,7 @@
 
 include 'connection.php'; //Init a connection
 
-$query = "SELECT * FROM books WHERE LOWER(title) LIKE LOWER(:keyword) ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
+$query = "SELECT * FROM users WHERE LOWER(fullname) LIKE LOWER(:keyword) ORDER BY fullname"; // or LOWER(Code) LIKE LOWER(:keyword) 
 //$query = "SELECT * FROM country WHERE LOWER(name) LIKE LOWER(:keyword) or LOWER(Code) LIKE LOWER(:keyword) ORDER BY name"; // Put query fetching data from table here
 
 $stmt = $con->prepare($query);
@@ -48,8 +48,8 @@ $num = $stmt->rowCount(); //Aquire number of rows
 if($num>0){ //Is there any data/rows?
     echo "<table class='table table-responsive table-fix table-bordered'><thead class='thead-light'>";
     echo "<tr>";
-    echo "<th>Title</th>"; // Rename, add or remove columns as you like.
-    echo "<th>Resource ID</th>";
+    echo "<th>Name</th>"; // Rename, add or remove columns as you like.
+    echo "<th>User ID</th>";
 		echo "<th>Options</th>";
     echo "</tr>";
 while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
@@ -57,14 +57,13 @@ while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     echo "<tr>";
 		
 		// Here is the data added to the table
-    echo "<td>{$title}</td>"; //Rename, add or remove columns as you like
-    echo "<td>{$resourceid}</td>";
+    echo "<td>{$fullname}</td>"; //Rename, add or remove columns as you like
+    echo "<td>{$userid}</td>";
 		echo "<td>";
 
 		//Here are the buttons for update, delete and read.
-		echo "<a href='readBooks.php?name={$title}'class='btn btn-info m-r-1em'>Info</a>"; // Replace with ID-variable, to make the buttons work
-		echo "<a href='updateBooks.php?name={$title}' class='btn btn-primary m-r-1em'>Update</a>";// Replace with ID-variable, to make the buttons work
-		echo "<a href='deleteBooks.php?id={$resourceid}' class='btn btn-danger'>Delete</a>";// Replace with ID-variable, to make the buttons work
+		echo "<a href='infoUser.php?name={$userid}'class='btn btn-info m-r-1em'>Info</a>";
+		echo "<a href='updateUser.php?name={$userid}' class='btn btn-primary m-r-1em'>Update</a>";
 		echo "</td>";
     echo "</tr>";
 }

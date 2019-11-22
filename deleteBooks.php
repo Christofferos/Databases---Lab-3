@@ -1,15 +1,15 @@
 <?php
-$name=isset($_GET['name']) ? $_GET['name'] : die('ERROR: ID not found'); //Aquire the ID
+$id=isset($_GET['id']) ? $_GET['id'] : die('ERROR: ID not found'); //Aquire the ID
 
 include 'connection.php'; //Init the connection
 
 try { 
-    // $query1 = "DELETE FROM resources WHERE title = :name"; // Insert your DELETE query here
-    // $query2 = "DELETE FROM books WHERE title = :name"; // Insert your DELETE query here
+    $query1 = "DELETE FROM resources WHERE resourceid = :id"; // Insert your DELETE query here
+    $query2 = "DELETE FROM books WHERE resourceid = :id"; // Insert your DELETE query here
     $stmt1 = $con->prepare($query1);
-    $stmt1->bindParam(':name', $name); //Binding the ID for the query
+    $stmt1->bindParam(':id', $id); //Binding the ID for the query
     $stmt2 = $con->prepare($query2);
-    $stmt2->bindParam(':name', $name); //Binding the ID for the query
+    $stmt2->bindParam(':id', $id); //Binding the ID for the query
 
     if($stmt2->execute()){
         if($stmt1->execute()){

@@ -1,37 +1,21 @@
-<?php
-	session_start();
-?>
-
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="description" content="This is an example of a meta description">
-		<meta name=viewport content="width=device-width, initial-scale=1">
-		
-		<title></title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-	</head>
-
-	<header>
-		<nav>
-			<div class="header-wrapper">
-				<ul>
-					<li><a class="button-test" href="#"><b>STUDENTS</b></a></li>
-					<li><a class="button-test" href="#"><b>ADMINISTRATORS</b></a></li>
-				</ul>
-				<div class="nav-login">
-					
-				</div>
-				<select>
-					<option value="users"></option>
-					<option value="administrators"></option>
-					<option value="students"></option>
-					<option value="resources"></option>
-					<option value="books"></option>
-					<option value="borrows"></option>
-					<option value="fines"></option>
-				</select>
-			</div>
-		</nav>
-	</header>
+<div class="page-header">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="books.php">Books</a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="createBooks.php">Add Book</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.php">Users</a>
+                <!--Insert your own php-file here -->
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="borrow.php">Borrows</a>
+                <!--Insert your own php-file here -->
+            </li>
+        </ul>
+    </nav>
+</div>
+</html>

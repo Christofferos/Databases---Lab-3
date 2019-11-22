@@ -68,7 +68,6 @@
 
         if ($_POST) { //Has the form been submitted?
             try {
-                echo "<div class='alert alert-success'>" . $admin . "</div>";
                 if ($admin == true) {
                     $query = "UPDATE administrators 
                     SET fullname=:fullname, department=:department, email=:email, homeaddress=:homeaddress, postalnumber=:postalnumber, phonenumber=:phonenumber, birthdate=:birthdate 

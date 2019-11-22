@@ -16,15 +16,14 @@
         if ($_POST) {
 
             try {
-                $isadmin = ':usertype';
                 $query1 = "INSERT INTO users(fullname) VALUES (:fullname)";
-                $query2 = ($isadmin === 'admin') ? "INSERT INTO administrators(asd, fullname, email, department, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :programmeDpt, :homeaddress, :postalnumber, :phonenumber, :birthdate)" : "INSERT INTO students(asd, fullname, email, programme, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :programmeDpt, :homeaddress, :postalnumber, :phonenumber, :birthdate)";
+                $query2 = "INSERT INTO administrators(userid, fullname, email, department, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :department, :homeaddress, :postalnumber, :phonenumber, :birthdate)";
                 $stmt1 = $con->prepare($query1);
-                $stmt2 = $con->prepare($query2); // prepare queries for execution
+                $stmt2 = $con->prepare($query2);
 
                 $fullname = htmlspecialchars(strip_tags($_POST['fullname'])); //Rename, add or remove columns as you like
                 $email = htmlspecialchars(strip_tags($_POST['email']));
-                $programmeDpt = htmlspecialchars(strip_tags($_POST['programmeDpt']));
+                $department = htmlspecialchars(strip_tags($_POST['department']));
                 $homeaddress = htmlspecialchars(strip_tags($_POST['homeaddress']));
                 $postalnumber = htmlspecialchars(strip_tags($_POST['postalnumber']));
                 $phonenumber = htmlspecialchars(strip_tags($_POST['phonenumber']));
@@ -33,7 +32,7 @@
                 $stmt1->bindParam(':fullname', $fullname); //Binding parameters for query 1
                 $stmt2->bindParam(':fullname', $fullname); //Binding parameters for query 2
                 $stmt2->bindParam(':email', $email);
-                $stmt2->bindParam(':programmeDpt', $programmeDpt);
+                $stmt2->bindParam(':department', $department);
                 $stmt2->bindParam(':homeaddress', $homeaddress);
                 $stmt2->bindParam(':postalnumber', $postalnumber);
                 $stmt2->bindParam(':phonenumber', $phonenumber);
@@ -53,11 +52,9 @@
 
         <!-- The HTML-Form. Rename, add or remove columns for your insert here -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
-            <input type="checkbox" name="usertype" value="admin">
             <table class='table table-hover table-responsive table-bordered'>
                 <?php
-                $arr = [['Full name', 'fullname'], ['Email', 'email'], ['Programme/department', 'programmeDpt'], ['Address', 'homeaddress'], ['Postal number', 'postalnumber'], ['Phone number', 'phonenumber'], ['Birthdate', 'birthdate']];
+                $arr = [['Full name', 'fullname'], ['Email', 'email'], ['Department', 'department'], ['Address', 'homeaddress'], ['Postal number', 'postalnumber'], ['Phone number', 'phonenumber'], ['Birthdate', 'birthdate']];
                 foreach ($arr as $a) {
                     echo '
                 <tr> 

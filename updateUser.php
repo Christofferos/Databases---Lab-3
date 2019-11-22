@@ -38,9 +38,8 @@
                 $stmt->execute(); //Execute query
                 $row = $stmt->fetch(PDO::FETCH_ASSOC); //Fetchs data
 
-                $userid = $row['userid'];
                 $fullname = $row['fullname'];
-                $programmeDept = $row['department'];
+                $department = $row['department'];
                 $email = $row['email'];
                 $homeaddress = $row['homeaddress'];
                 $postalnumber = $row['postalnumber'];
@@ -49,9 +48,8 @@
 
                 $admin = true;
             } else {   //USER IS STUDENT
-                $userid = $row['userid'];
                 $fullname = $row['fullname'];
-                $programmeDept = $row['programme'];
+                $programme = $row['programme'];
                 $email = $row['email'];
                 $homeaddress = $row['homeaddress'];
                 $postalnumber = $row['postalnumber'];
@@ -70,42 +68,31 @@
 
         if ($_POST) { //Has the form been submitted?
             try {
+                echo "<div class='alert alert-success'>" . $admin . "</div>";
                 if ($admin == true) {
                     $query = "UPDATE administrators 
                     SET fullname=:fullname, department=:department, email=:email, homeaddress=:homeaddress, postalnumber=:postalnumber, phonenumber=:phonenumber, birthdate=:birthdate 
-                    WHERE userid = '" . $userid . "'";
+                    WHERE userid =:userid";
                 } else {
                     $query = "UPDATE students 
-                    SET fullname=:fullname, department=:department, email=:email, homeaddress=:homeaddress, postalnumber=:postalnumber, phonenumber=:phonenumber, birthdate=:birthdate 
-                    WHERE userid = '" . $userid . "'";
+                    SET fullname=:fullname, programme=:programme, email=:email, homeaddress=:homeaddress, postalnumber=:postalnumber, phonenumber=:phonenumber, birthdate=:birthdate 
+                    WHERE userid =:userid";
                 }
                 $stmt = $con->prepare($query);
 
-                $title = htmlspecialchars(strip_tags($_POST['title'])); //Rename, add or remove columns as you like
-                $isbn = htmlspecialchars(strip_tags($_POST['isbn']));
-                $author = htmlspecialchars(strip_tags($_POST['author']));
-                $editionnum = htmlspecialchars(strip_tags($_POST['editionnum']));
-                $lang = htmlspecialchars(strip_tags($_POST['lang']));
-                $publisher = htmlspecialchars(strip_tags($_POST['publisher']));
-                $publicationdate = htmlspecialchars(strip_tags($_POST['publicationdate']));
-                $prequels = htmlspecialchars(strip_tags($_POST['prequels']));
-                $genre = htmlspecialchars(strip_tags($_POST['genre']));
-                $pages = htmlspecialchars(strip_tags($_POST['pages']));
-                $series = htmlspecialchars(strip_tags($_POST['series']));
 
-                //$stmt->bindParam(':resourceid', $resourceid);
-                $stmt->bindParam(':title', $title); //Binding parameters for query
-                $stmt->bindParam(':isbn', $isbn);
-                $stmt->bindParam(':editionnum', $editionnum);
-                $stmt->bindParam(':author', $author);
-                $stmt->bindParam(':editionnum', $editionnum);
-                $stmt->bindParam(':lang', $lang);
-                $stmt->bindParam(':publisher', $publisher);
-                $stmt->bindParam(':publicationdate', $publicationdate);
-                $stmt->bindParam(':prequels', $prequels);
-                $stmt->bindParam(':genre', $genre);
-                $stmt->bindParam(':pages', $pages);
-                $stmt->bindParam(':series', $series);
+                $stmt->bindParam(':userid', $userid);
+                $stmt->bindParam(':fullname', $fullname); //Binding parameters for query
+                if ($admin == true) {
+                    $stmt->bindParam(':department', $department);
+                } else {
+                    $stmt->bindParam(':programme', $programme);
+                }
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':homeaddress', $homeaddress);
+                $stmt->bindParam(':postalnumber', $postalnumber);
+                $stmt->bindParam(':phonenumber', $phonenumber);
+                $stmt->bindParam(':birthdate', $birthdate);
 
                 // Execute the query
                 if ($stmt->execute()) { //Executes and check if correctly executed
@@ -120,21 +107,21 @@
         ?>
 
         <!-- The HTML-Form. Rename, add or remove columns for your update here -->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?name={$name}"); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?userid={$userid}"); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
-            <?php
-            if ($admin == true) {
-                $arr = [['UserID', $userid], ['Full name', $fullname], ['Department', $programmeDept], ['Email', $email], ['Home address', $homeaddress], ['Postal number', $postalnumber], ['Phone number', $phonenumber], ['Birth date', $birthdate]];
-            } else {
-                $arr = [['UserID', $userid], ['Full name', $fullname], ['Programme', $programmeDept], ['Email', $email], ['Home address', $homeaddress], ['Postal number', $postalnumber], ['Phone number', $phonenumber], ['Birth date', $birthdate]];
-            }
-            foreach ($arr as $a) {
-                echo '<tr>
+                <?php
+                if ($admin == true) {
+                    $arr = [['Full name', 'fullname', $fullname], ['Department', 'department', $department], ['Email', 'email', $email], ['Home address', 'homeaddress', $homeaddress], ['Postal number', 'postalnumber', $postalnumber], ['Phone number', 'phonenumber', $phonenumber], ['Birth date', 'birthdate', $birthdate]];
+                } else {
+                    $arr = [['Full name', 'fullname', $fullname], ['Programme', 'programme', $programme], ['Email', 'email', $email], ['Home address', 'homeaddress', $homeaddress], ['Postal number', 'postalnumber', $postalnumber], ['Phone number', 'phonenumber', $phonenumber], ['Birth date', 'birthdate', $birthdate]];
+                }
+                foreach ($arr as $a) {
+                    echo '<tr>
                 <td>' . $a[0] . '</td>
-                <td>' . $a[1] . '</td>
+                <td><input type="text" name=' . $a[1] . ' value="' . $a[2] . '" class="form-control"</td>
             </tr>';
-            }
-            ?>
+                }
+                ?>
 
                 <tr>
                     <td></td>

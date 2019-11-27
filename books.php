@@ -21,6 +21,27 @@
         <tr>
             <td>Search</td>
             <td><input type='text' name='keyword' class='form-control' /></td>
+            <td>Language</td>
+            <td>
+              <select type='text' name='language' class='form-control'> 
+                <option value="any">-</option>
+                <option value="English" <?php if(isset($_POST['language']) && $_POST['language'] == "English") echo 'selected="selected"';?>>English</option>
+                <option value="Swedish" <?php if(isset($_POST['language']) && $_POST['language'] == "Swedish") echo 'selected="selected"';?>>Swedish</option>
+              </select>
+            </td>
+            <td>Genre</td>
+            <td>
+              <select type='text' name='genre' class='form-control'> 
+                <option value="any">-</option>
+                <option value="Popular Science" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Popular Science") echo 'selected="selected"';?>>Popular Science</option>
+                <option value="Philosophy" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Philosophy") echo 'selected="selected"';?>>Philosophy</option>
+                <option value="CourseLit" <?php if(isset($_POST['genre']) && $_POST['genre'] == "CourseLit") echo 'selected="selected"';?>>CourseLit</option>
+                <option value="Fiction" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Fiction") echo 'selected="selected"';?>>Fiction</option>
+                <option value="Fantasy" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Fantasy") echo 'selected="selected"';?>>Fantasy</option>
+                <option value="Dystopian" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Dystopian") echo 'selected="selected"';?>>Dystopian</option>
+                <option value="Action" <?php if(isset($_POST['genre']) && $_POST['genre'] == "Action") echo 'selected="selected"';?>>Action</option>
+              </select>
+            </td>
         </tr>
     </table>
 </form>
@@ -31,9 +52,24 @@
 
 
 include 'connection.php'; //Init a connection
-
-$query = "SELECT * FROM books WHERE LOWER(title) LIKE LOWER(:keyword) ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
-//$query = "SELECT * FROM country WHERE LOWER(name) LIKE LOWER(:keyword) or LOWER(Code) LIKE LOWER(:keyword) ORDER BY name"; // Put query fetching data from table here
+if(isset($_POST['genre']) || isset($_POST['language'])) {
+  if ($_POST['genre'] !== 'any' && $_POST['language'] !== 'any') {
+    $query = "SELECT * FROM books WHERE lang = '".$_POST['language']."' AND genre = '".$_POST['genre']."' AND LOWER(title) LIKE LOWER(:keyword) ORDER BY title";
+  }
+  else if ($_POST['genre'] !== 'any' && $_POST['language'] === 'any') {
+    $query = "SELECT * FROM books WHERE genre = '".$_POST['genre']."' AND LOWER(title) LIKE LOWER(:keyword) ORDER BY title";
+  }
+  else if ($_POST['genre'] === 'any' && $_POST['language'] !== 'any') {
+    $query = "SELECT * FROM books WHERE lang = '".$_POST['language']."' AND LOWER(title) LIKE LOWER(:keyword) ORDER BY title";
+  }
+  else {
+    $query = "SELECT * FROM books WHERE LOWER(title) LIKE LOWER(:keyword) ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
+  }
+}
+else {
+  $query = "SELECT * FROM books WHERE LOWER(title) LIKE LOWER(:keyword) ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
+}
+  //$query = "SELECT * FROM country WHERE LOWER(name) LIKE LOWER(:keyword) or LOWER(Code) LIKE LOWER(:keyword) ORDER BY name"; // Put query fetching data from table here
 
 $stmt = $con->prepare($query);
 $keyword= isset($_POST['keyword']) ? $_POST['keyword'] : ''; //Is there any data sent from the form?

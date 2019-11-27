@@ -29,12 +29,14 @@
 
 include 'connection.php'; //Init a connection
 
-$query = "SELECT * FROM borrows WHERE (resourceid AS INTEGER) LIKE (:keyword AS INTEGER) ORDER BY dateborrow";
+$query = "SELECT * FROM borrows "; //WHERE (resourceid AS INTEGER) LIKE (:keyword AS INTEGER) ORDER BY dateborrow
 $stmt = $con->prepare($query);
 $keyword= isset($_POST['keyword']) ? $_POST['keyword'] : ''; //Is there any data sent from the form?
 
+/*
 $keyword = "%".$keyword."%";
 $stmt->bindParam(':keyword', $keyword);
+*/
 
 $stmt->execute();
 
@@ -43,22 +45,31 @@ $num = $stmt->rowCount(); //Aquire number of rows
 if($num>0){ //Is there any data/rows?
     echo "<table class='table table-responsive table-fix table-bordered'><thead class='thead-light'>";
     echo "<tr>";
+    echo "<th>BorrowID</th>";
+    echo "<th>ResourceID</th>";
+    echo "<th>UserID</th>";
     echo "<th>Borrowing Date</th>"; // Rename, add or remove columns as you like.
     echo "<th>Expire Date</th>";
-		echo "<th>Return Date</th>";
-		echo "<th>ResourceID</th>";
-		echo "<th>UserID</th>";
+    echo "<th>Days Overdue</th>";
+    echo "<th>Return Date</th>";
+    echo "<th>Avaliable Book</th>";
     echo "</tr>";
 while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     extract($rad);
     echo "<tr>";
 		
-		// Here is the data added to the table
-    echo "<td>{$dateborrow}</td>"; //Rename, add or remove columns as you like
-    echo "<td>{$dateexpire}</td>";
-    echo "<td>{$datereturn}</td>";
+    // Here is the data added to the table
+    echo "<td>{$borrowid}</td>"; 
     echo "<td>{$resourceid}</td>";
     echo "<td>{$userid}</td>";
+    echo "<td>{$dateborrow}</td>"; 
+    echo "<td>{$dateexpire}</td>";
+    $daysoverdue == '' ? $daysoverdue = '-' : '';
+    echo "<td>{$daysoverdue}</td>";
+    $datereturn == '' ? $datereturn = '-' : '';
+    echo "<td>{$datereturn}</td>";
+    $datereturn == '' ? $res='No' : $res='Yes';
+    echo "<td>{$res}</td>";
 		echo "<td>";
 
 		//Here are the buttons for update, delete and read.

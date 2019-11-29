@@ -110,7 +110,7 @@ while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     echo "<td>{$userid}</td>";
 		echo "<td>";
 
-		//Here are the buttons for update, delete and read.
+		//Here are the buttons for update, and check info.
 		echo "<a href='infoUser.php?userid={$userid}'class='btn btn-info m-r-1em'>Info</a>";
 		echo "<a href='updateUser.php?userid={$userid}' class='btn btn-primary m-r-1em'>Update</a>";
 		echo "</td>";

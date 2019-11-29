@@ -16,20 +16,20 @@
 
 
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+<!-- <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
     <table class='table table-hover table-responsive table-bordered'>
         <tr>
             <td>Search</td>
             <td><input type='text' name='keyword' class='form-control' /></td>
         </tr>
     </table>
-</form>
+</form> -->
 
 <?php
 
 include 'connection.php'; //Init a connection
 
-$query = "SELECT * FROM borrows "; //WHERE (resourceid AS INTEGER) LIKE (:keyword AS INTEGER) ORDER BY dateborrow
+$query = "SELECT * FROM borrows ORDER BY borrowid ASC"; //WHERE (resourceid AS INTEGER) LIKE (:keyword AS INTEGER) ORDER BY dateborrow
 $stmt = $con->prepare($query);
 $keyword= isset($_POST['keyword']) ? $_POST['keyword'] : ''; //Is there any data sent from the form?
 
@@ -52,7 +52,7 @@ if($num>0){ //Is there any data/rows?
     echo "<th>Expire Date</th>";
     echo "<th>Days Overdue</th>";
     echo "<th>Return Date</th>";
-    echo "<th>Avaliable Book</th>";
+    echo "<th>Options</th>";
     echo "</tr>";
 while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     extract($rad);
@@ -68,8 +68,12 @@ while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     echo "<td>{$daysoverdue}</td>";
     $datereturn == '' ? $datereturn = '-' : '';
     echo "<td>{$datereturn}</td>";
-    $datereturn == '-' ? $res='No' : $res='Yes';
-    echo "<td>{$res}</td>";
+    echo "<td>";
+        //Function for returning a book
+        if($datereturn == '-') {
+		    echo "<a href='borrowReturn.php?id={$borrowid}'class='btn btn-info m-r-1em'>Return</a>";
+        }
+        echo "</td>";
     echo "</tr>";
 }
 echo "</table>";    

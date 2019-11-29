@@ -68,7 +68,7 @@ while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     echo "<td>{$daysoverdue}</td>";
     $datereturn == '' ? $datereturn = '-' : '';
     echo "<td>{$datereturn}</td>";
-    $datereturn == '' ? $res='No' : $res='Yes';
+    $datereturn == '-' ? $res='No' : $res='Yes';
     echo "<td>{$res}</td>";
 		echo "<td>";
 

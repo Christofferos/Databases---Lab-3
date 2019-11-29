@@ -4,7 +4,7 @@
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <ul class="navbar-nav">
             <?php
-            $arr = [['books.php', 'Books'], ['createBooks.php', 'Add Book'], ['users.php', 'Users'], ['createStudent.php', 'Add Student'], ['createAdmin.php', 'Add Administrator'], ['borrows.php', 'Borrowing']];
+            $arr = [['books.php', 'Books'], ['createBooks.php', 'Add Book'], ['users.php', 'Users'], ['createStudent.php', 'Add Student'], ['createAdmin.php', 'Add Administrator'], ['borrows.php', 'Borrows']];
             foreach ($arr as $a) {
                 echo '
                 <li class="nav-item">

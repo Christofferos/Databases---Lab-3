@@ -70,13 +70,6 @@ while ($rad = $stmt->fetch(PDO::FETCH_ASSOC)){ //Fetches data
     echo "<td>{$datereturn}</td>";
     $datereturn == '-' ? $res='No' : $res='Yes';
     echo "<td>{$res}</td>";
-		echo "<td>";
-
-		//Here are the buttons for update, delete and read.
-		/* echo "<a href='readBooks.php?name={$title}'class='btn btn-info m-r-1em'>Info</a>"; // Replace with ID-variable, to make the buttons work
-		echo "<a href='updateBooks.php?name={$title}' class='btn btn-primary m-r-1em'>Update</a>";// Replace with ID-variable, to make the buttons work
-		echo "<a href='deleteBooks.php?id={$resourceid}' class='btn btn-danger'>Delete</a>";// Replace with ID-variable, to make the buttons work */
-		echo "</td>";
     echo "</tr>";
 }
 echo "</table>";    

@@ -51,6 +51,13 @@
               <option value="Action" <?php if (isset($_POST['genre']) && $_POST['genre'] == "Action") echo 'selected="selected"'; ?>>Action</option>
             </select>
           </td>
+          <td>
+          <select type='text' name='availableBooks' class='form-control'>
+              <option value="All" selected="selected">All Books</option>
+              <option value="Available Books" <?php if (isset($_POST['availableBooks']) && $_POST['availableBooks'] == "Available Books") echo 'selected="selected"'; ?>>Available Books</option>
+          </select>
+          </td>
+          
         </tr>
       </table>
     </form>
@@ -62,17 +69,24 @@
 
     include 'connection.php'; //Init a connection
 
+
     $genre = '';
     $language = '';
-    if ($_POST['genre'] !== 'any') {
-      $genre = "AND genre = '" . $_POST['genre'] . "'";
-    }
-    if ($_POST['language'] !== 'any') {
-      $language = "AND lang = '" . $_POST['language'] . "'";
+    $available = '';
+    if(isset($_POST['genre']) && isset($_POST['language']) && isset($_POST['availableBooks'])) {
+      if ($_POST['genre'] !== 'any') {
+        $genre = "AND genre = '" . $_POST['genre'] . "'";
+      }
+      if ($_POST['language'] !== 'any') {
+        $language = "AND lang = '" . $_POST['language'] . "'";
+      }
+      if ($_POST['availableBooks'] !== 'All Books') {
+        $available = "EXCEPT SELECT title, books.resourceid FROM books INNER JOIN borrows ON books.resourceid = borrows.resourceID WHERE datereturn IS NULL";
+      }
     }
 
-    $query = "SELECT * FROM books WHERE LOWER(title) LIKE LOWER(:keyword) " . $genre . $language . " ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
-
+    $query = "SELECT title, resourceid FROM books WHERE LOWER(title) LIKE LOWER(:keyword) " . $genre . $language . $available ." ORDER BY title"; // or LOWER(Code) LIKE LOWER(:keyword) 
+    
     //$query = "SELECT * FROM country WHERE LOWER(name) LIKE LOWER(:keyword) or LOWER(Code) LIKE LOWER(:keyword) ORDER BY name"; // Put query fetching data from table here
 
     $stmt = $con->prepare($query);

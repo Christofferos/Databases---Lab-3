@@ -16,31 +16,23 @@
         if ($_POST) {
 
             try {
-                
-                $usertable = $_POST['table'];
-                if ($usertable === 'students'){
-                    $query2 = "INSERT INTO students(userid, fullname, email, programme, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :progDept, :homeaddress, :postalnumber, :phonenumber, :birthdate)";
-                }else{
-                    $query2 = "INSERT INTO administrators(userid, fullname, email, department, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :progDept, :homeaddress, :postalnumber, :phonenumber, :birthdate)";
-                }
-
                 $query1 = "INSERT INTO users(fullname) VALUES (:fullname)";
+                $query2 = "INSERT INTO administrators(userid, fullname, email, department, homeaddress, postalnumber, phonenumber, birthdate) VALUES ((SELECT MAX(userID) FROM users), :fullname, :email, :department, :homeaddress, :postalnumber, :phonenumber, :birthdate)";
                 $stmt1 = $con->prepare($query1);
                 $stmt2 = $con->prepare($query2);
 
                 $fullname = htmlspecialchars(strip_tags($_POST['fullname'])); //Rename, add or remove columns as you like
                 $email = htmlspecialchars(strip_tags($_POST['email']));
-                $progDept = htmlspecialchars(strip_tags($_POST['progDept']));
+                $department = htmlspecialchars(strip_tags($_POST['department']));
                 $homeaddress = htmlspecialchars(strip_tags($_POST['homeaddress']));
                 $postalnumber = htmlspecialchars(strip_tags($_POST['postalnumber']));
                 $phonenumber = htmlspecialchars(strip_tags($_POST['phonenumber']));
                 $birthdate = htmlspecialchars(strip_tags($_POST['birthdate']));
 
-
                 $stmt1->bindParam(':fullname', $fullname); //Binding parameters for query 1
                 $stmt2->bindParam(':fullname', $fullname); //Binding parameters for query 2
                 $stmt2->bindParam(':email', $email);
-                $stmt2->bindParam(':progDept', $progDept);
+                $stmt2->bindParam(':department', $department);
                 $stmt2->bindParam(':homeaddress', $homeaddress);
                 $stmt2->bindParam(':postalnumber', $postalnumber);
                 $stmt2->bindParam(':phonenumber', $phonenumber);
@@ -61,17 +53,8 @@
         <!-- The HTML-Form. Rename, add or remove columns for your insert here -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <table class='table table-hover table-responsive table-bordered'>
-                <tr>
-                    <td>User classification</td>
-                    <td>
-                        <select type='text' name='table' class='form-control'>
-                            <option value="students" selected="selected">Student</option>
-                            <option value="administrators">Administrator</option>
-                        </select>
-                    </td>
-                </tr>
                 <?php
-                $arr = [['Full name', 'fullname'], ['Email', 'email'], ['Programme/Department', 'progDept'], ['Address', 'homeaddress'], ['Postal number', 'postalnumber'], ['Phone number', 'phonenumber'], ['Birthdate', 'birthdate']];
+                $arr = [['Full name', 'fullname'], ['Email', 'email'], ['Department', 'department'], ['Address', 'homeaddress'], ['Postal number', 'postalnumber'], ['Phone number', 'phonenumber'], ['Birthdate', 'birthdate']];
                 foreach ($arr as $a) {
                     echo '
                 <tr> 
